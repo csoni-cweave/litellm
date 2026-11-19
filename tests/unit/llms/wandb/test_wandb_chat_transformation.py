@@ -17,9 +17,7 @@ from litellm.llms.wandb.chat.transformation import WandbConfig
 
 
 WANDB_REASONING_MODELS: Final = (
-    "deepseek-ai/DeepSeek-V4-Flash",
     "deepseek-ai/DeepSeek-V4-Flash-0731",
-    "deepseek-ai/DeepSeek-V4-Pro",
     "deepseek-ai/DeepSeek-V4-Pro-0813",
     "deepseek-ai/DeepSeek-V3.1",
     "google/gemma-4-31B-it",
@@ -33,8 +31,6 @@ WANDB_REASONING_MODELS: Final = (
     "openai/gpt-oss-20b",
     "Qwen/Qwen3.8-27B",
     "Qwen/Qwen3.6-35B-A3B",
-    "Qwen/Qwen3.6-27B",
-    "Qwen/Qwen3.5-35B-A3B",
     "zai-org/GLM-5.2",
     "moonshotai/Kimi-K2.5",
 )
