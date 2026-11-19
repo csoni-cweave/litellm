@@ -717,6 +717,7 @@ vercel_ai_gateway_models: Set = set()
 edenai_models: Set = set()
 volcengine_models: Set = set()
 wandb_models: Set = set(WANDB_MODELS)
+coreweave_forge_models: Set[str] = set()
 ovhcloud_models: Set = set()
 ovhcloud_embedding_models: Set = set()
 lemonade_models: Set = set()
@@ -1028,6 +1029,8 @@ def _populate_provider_model_sets(model_cost_map: Mapping[str, Mapping[str, obje
             volcengine_models.add(key)
         elif value.get("litellm_provider") == "wandb":
             wandb_models.add(key)
+        elif value.get("litellm_provider") == "coreweave_forge":
+            coreweave_forge_models.add(key)
         elif value.get("litellm_provider") == "ovhcloud":
             ovhcloud_models.add(key)
         elif value.get("litellm_provider") == "ovhcloud-embedding-models":
@@ -1200,6 +1203,7 @@ model_list = list(
     | edenai_models
     | volcengine_models
     | wandb_models
+    | coreweave_forge_models
     | ovhcloud_models
     | lemonade_models
     | docker_model_runner_models
@@ -1331,6 +1335,7 @@ def _build_models_by_provider() -> dict[str, Collection[str]]:
         "oci": oci_models,
         "volcengine": volcengine_models,
         "wandb": wandb_models,
+        "coreweave_forge": coreweave_forge_models,
         "ovhcloud": ovhcloud_models | ovhcloud_embedding_models,
         "lemonade": lemonade_models,
         "clarifai": clarifai_models,

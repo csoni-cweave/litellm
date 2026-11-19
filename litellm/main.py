@@ -7857,7 +7857,7 @@ def embedding(
                 client=client,
                 aembedding=aembedding,
             )
-        elif custom_llm_provider == "wandb":
+        elif custom_llm_provider in ("wandb", "coreweave_forge"):
             api_key = api_key or litellm.api_key or get_secret_str("WANDB_API_KEY")
             api_base = (
                 api_base or litellm.api_base or get_secret_str("WANDB_API_BASE") or "https://api.inference.wandb.ai/v1"

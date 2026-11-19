@@ -4860,6 +4860,7 @@ class LlmProviders(str, Enum):
     DOTPROMPT = "dotprompt"
     MANUS = "manus"
     WANDB = "wandb"
+    COREWEAVE_FORGE = "coreweave_forge"
     OVHCLOUD = "ovhcloud"
     SCALEWAY = "scaleway"
     LEMONADE = "lemonade"

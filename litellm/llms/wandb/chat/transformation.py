@@ -2,6 +2,9 @@
 Wandb Chat Completions API - Transformation
 
 This is OpenAI compatible - no translation needed / occurs
+
+Also backs the "coreweave_forge" provider (CoreWeave Forge is a rebrand of this same
+W&B Inference API).
 """
 
 from typing import Final

@@ -12,7 +12,7 @@ import pytest
 import respx
 
 import litellm
-from litellm import completion
+from litellm import completion, get_llm_provider
 from litellm.llms.wandb.chat.transformation import WandbConfig
 
 
@@ -309,3 +309,36 @@ class TestWandbConfig:
         request_body = json.loads(wandb_request_mock.calls[0].request.content)
         assert request_body["model"] == model
         assert request_body["reasoning_effort"] == "medium"
+
+
+class TestCoreweaveForgeAlias:
+    """CoreWeave Forge is a rebrand of this same W&B Inference API, routed through the
+    "coreweave_forge" provider with WANDB_API_KEY/WANDB_API_BASE credentials."""
+
+    def test_resolves_provider_and_wandb_credentials(self, monkeypatch: pytest.MonkeyPatch):
+        monkeypatch.setenv("WANDB_API_KEY", "fake-wandb-key")
+        monkeypatch.delenv("WANDB_API_BASE", raising=False)
+
+        model, provider, dynamic_api_key, api_base = get_llm_provider(
+            "coreweave_forge/openai/gpt-oss-120b"
+        )
+
+        assert model == "openai/gpt-oss-120b"
+        assert provider == "coreweave_forge"
+        assert dynamic_api_key == "fake-wandb-key"
+        assert api_base == "https://api.inference.wandb.ai/v1"
+
+    @pytest.mark.parametrize("model", WANDB_REASONING_MODELS)
+    def test_cost_matches_wandb(self, wandb_test_config, model: str):
+        """A pure routing alias with no cost-map entries of its own would silently bill
+        $0 for coreweave_forge, since provider-match filtering in get_model_info_helper
+        rejects cross-provider cost-map hits. Entries must be duplicated, not aliased."""
+        coreweave_forge_cost = litellm.cost_per_token(
+            model=f"coreweave_forge/{model}", prompt_tokens=100, completion_tokens=100
+        )
+        wandb_cost = litellm.cost_per_token(
+            model=f"wandb/{model}", prompt_tokens=100, completion_tokens=100
+        )
+
+        assert coreweave_forge_cost == wandb_cost
+        assert coreweave_forge_cost != (0.0, 0.0)

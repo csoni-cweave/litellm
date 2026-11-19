@@ -916,6 +916,7 @@ LITELLM_CHAT_PROVIDERS: Final = [
     "inception",
     "vercel_ai_gateway",
     "wandb",
+    "coreweave_forge",
     "edenai",
     "ovhcloud",
     "lemonade",
@@ -1204,6 +1205,7 @@ openai_compatible_providers: Final[list[str]] = [
     "aiml",
     "edenai",
     "wandb",
+    "coreweave_forge",
     "cometapi",
     "clarifai",
     "docker_model_runner",
@@ -1252,6 +1254,7 @@ openai_text_completion_compatible_providers: Final[list] = [  # providers that s
     "lambda_ai",
     "hyperbolic",
     "wandb",
+    "coreweave_forge",
 ]
 _openai_like_providers: Final[list[str]] = [
     "predibase",

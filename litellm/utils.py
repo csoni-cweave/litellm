@@ -8550,7 +8550,7 @@ def validate_environment(
                 keys_in_environment = True
             else:
                 missing_keys.append("NEBIUS_API_KEY")
-        elif custom_llm_provider == "wandb":
+        elif custom_llm_provider in ("wandb", "coreweave_forge"):
             if "WANDB_API_KEY" in os.environ:
                 keys_in_environment = True
             else:
@@ -8674,7 +8674,7 @@ def validate_environment(
                 keys_in_environment = True
             else:
                 missing_keys.append("NEBIUS_API_KEY")
-        elif model in litellm.wandb_models:
+        elif model in litellm.wandb_models or model in litellm.coreweave_forge_models:
             if "WANDB_API_KEY" in os.environ:
                 keys_in_environment = True
             else:
@@ -10223,6 +10223,7 @@ class ProviderConfigManager:
             LlmProviders.NOVITA: (lambda: litellm.NovitaConfig(), False),
             LlmProviders.NEBIUS: (lambda: litellm.NebiusConfig(), False),
             LlmProviders.WANDB: (lambda: litellm.WandbConfig(), False),
+            LlmProviders.COREWEAVE_FORGE: (lambda: litellm.WandbConfig(), False),
             LlmProviders.DASHSCOPE: (lambda: litellm.DashScopeChatConfig(), False),
             LlmProviders.QWENCLOUD: (lambda: litellm.QwenCloudChatConfig(), False),
             LlmProviders.QWEN_AI_PLATFORM: (
